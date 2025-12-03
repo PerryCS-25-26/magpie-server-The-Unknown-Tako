@@ -2,11 +2,13 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.Date;
 
 public class MagpieServer implements HttpHandler
 {
+    private Magpie maggie = new Magpie();
     /**
      * Handle an incoming HTTP request
      * @param exchange The HTTP exchange containing the request and response
@@ -25,6 +27,13 @@ public class MagpieServer implements HttpHandler
         {
             String statement = new String(exchange.getRequestBody().readAllBytes());
             System.out.println("User said: " + statement);
+            String response = maggie.getResponse(statement);
+            System.out.println("Maggie responded: " + response);
+            // Send the response back to the user
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length());
+            OutputStream responseBody = exchange.getResponseBody();
+            responseBody.write(response.getBytes());
+            responseBody.close();
         }
         else
         {
