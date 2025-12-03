@@ -53,6 +53,18 @@ public class Magpie
         {
             response = "He sounds like a good teacher.";
         }
+        else if (statement.indexOf("magpie") >= 0)
+        {
+            response = "That is what I am.";
+        }
+        else if (statement.indexOf("hate") >= 0)
+        {
+            response = "I hate that as well.";
+        }
+        else if (statement.indexOf("love") >= 0)
+        {
+            response = "That's lovely.";
+        }
         else if (statement.trim().length() <= 0)
         {
             response = "What did you say? I couldn't hear you.";
