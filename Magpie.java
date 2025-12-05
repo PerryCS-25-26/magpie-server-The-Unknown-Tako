@@ -47,10 +47,19 @@ public class Magpie
         {
             response = transformIWantToStatement(statement);
         }
+        else if (findKeyword(statement, "I want") >= 0)
+        {
+            response = transformIWantStatement(statement);
+        }
         else if (findKeyword(statement, "you") >= 0 
                  && findKeyword(statement, "me") > findKeyword(statement, "you"))
         {
             response = transformYouMeStatement(statement);
+        }
+        else if (findKeyword(statement, "I") >= 0 
+                 && findKeyword(statement, "you") > findKeyword(statement, "I"))
+        {
+            response = transformIYouStatement(statement);
         }
         else if (findKeyword(statement, "cat") >= 0
                 || findKeyword(statement, "dog") >= 0
@@ -223,6 +232,29 @@ public class Magpie
     }
 
     /**
+     * Take a statement with "I want <something>." and transform it into 
+     * "Would you really be happy if you had <something>?"
+     * @param statement the user statement, assumed to contain "I want"
+     * @return the transformed statement
+     */
+    private String transformIWantStatement(String statement)
+    {
+        // Remove the final period, if there is one
+        statement = statement.trim();
+        String lastChar = statement.substring(statement.length() - 1);
+        if (lastChar.equals("."))
+        {
+            statement = statement.substring(0, statement.length() - 1);
+        }
+
+        // Transform the statement into a question
+        String kw = "I want";
+        int psn = findKeyword (statement, kw);
+        String restOfStatement = statement.substring(psn + kw.length()).trim();
+        return "Would you really be happy if you had " + restOfStatement + "?";
+    }
+
+    /**
      * Take a statement with "you <something> me" and transform it into 
      * "What makes you think that I <something> you?"
      * @param statement the user statement, assumed to contain "you" followed by "me"
@@ -237,5 +269,22 @@ public class Magpie
 
         String restOfStatement = statement.substring(psnOfYou + you.length(), psnOfMe).trim();
         return "What makes you think that I " + restOfStatement + " you?";
+    }
+
+    /**
+     * Take a statement with "I <something> you" and transform it into 
+     * "Why do you <something> me?"
+     * @param statement the user statement, assumed to contain "I" followed by "you"
+     * @return the transformed statement
+     */
+    private String transformIYouStatement(String statement)
+    {
+        String i = "I";
+        String you = "you";
+        int psnOfI = findKeyword (statement, i, 0);
+        int psnOfYou = findKeyword (statement, you, psnOfI + i.length());
+
+        String restOfStatement = statement.substring(psnOfI + i.length(), psnOfYou).trim();
+        return "Why do you " + restOfStatement + " me?";
     }
 }
