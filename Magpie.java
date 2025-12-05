@@ -107,7 +107,11 @@ public class Magpie
             "Do you really think so?",
             "You don't say.",
             "I like that for you.",
-            "That's good."
+            "That's good.",
+            "That's crazy.",
+            "Could you elaborate on that?",
+            "Sounds about right.",
+            "Is that true?"
         };
      
         int r = (int)(Math.random() * randomResponses.length);
