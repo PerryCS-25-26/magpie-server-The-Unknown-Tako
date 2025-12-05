@@ -98,40 +98,22 @@ public class Magpie
      * Pick a default response to use if nothing else fits.
      * @return a non-committal string
      */
-    private String getRandomResponse()
+    private String getRandomResponse ()
     {
-        final int NUMBER_OF_RESPONSES = 6;
-        double r = Math.random();
-        int whichResponse = (int)(r * NUMBER_OF_RESPONSES);
-        String response = "";
-
-        if (whichResponse == 0)
+        final String[] randomResponses =
         {
-            response = "Interesting, tell me more.";
-        }
-        else if (whichResponse == 1)
-        {
-            response = "Hmmm.";
-        }
-        else if (whichResponse == 2)
-        {
-            response = "Do you really think so?";
-        }
-        else if (whichResponse == 3)
-        {
-            response = "You don't say.";
-        }
-        else if (whichResponse == 4)
-        {
-            response = "I like that for you.";
-        }
-        else if (whichResponse == 5)
-        {
-            response = "That's good.";
-        }
-
-        return response;
+            "Interesting, tell me more!!",
+            "Hmmm.",
+            "Do you really think so?",
+            "You don't say.",
+            "I like that for you.",
+            "That's good."
+        };
+     
+        int r = (int)(Math.random() * randomResponses.length);
+        return randomResponses[r];
     }
+
      /**
      * Search for one word in phrase. The search is not case
      * sensitive. This method will check that the given goal
